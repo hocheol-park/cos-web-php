@@ -68,6 +68,9 @@
 			else if($mode == "deleteitem") {
 				$this->deleteItem();
 			}
+			else if($mode == "testpush") {
+				$this->testpush();
+			}
 		}
 		
 		function setInitData() {
@@ -207,6 +210,15 @@
 			$itemManager = new ItemManager();
 			$itemManager->deleteItem($itemid);
 			returnJson(200, "", "Detele item. Id : ".$itemid);
+		}
+		
+		function testpush() {
+			
+			$token = isset($_GET['token']) ? $_GET['token'] : "";
+			$msg = isset($_GET['msg']) ? $_GET['msg'] : "";
+			
+			$FCM = new GoogleFcm($token, $msg);
+			$FCM->send();
 		}
 		
 	}
