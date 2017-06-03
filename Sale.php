@@ -62,6 +62,10 @@
 
 			}
 		}
+		
+		function getOrderId() {
+			return $this->orderId;
+		}
 	}
 	
 ?>

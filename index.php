@@ -8,6 +8,7 @@
 				"msg" => $msg
 			);
 		echo json_encode($result);
+		exit;
 	}
 	
 	// CLASSES
@@ -85,6 +86,7 @@
 				$createUser  = "CREATE TABLE User (";
 				$createUser .= "userId VARCHAR(30) NOT NULL, ";
 				$createUser .= "phoneNumber VARCHAR(15) NOT NULL, ";
+				$createUser .= "fcmToken VARCHAR(50), ";
 				$createUser .= "regDate DATETIME NULL DEFAULT CURRENT_TIMESTAMP, ";
 				$createUser .= "PRIMARY KEY (userId) );";
 				
@@ -123,6 +125,8 @@
 			$token = isset($_GET['token']) ? $_GET['token'] : "";
 			
 			$user->updateUser($this->userId, $unum, $token);
+			
+			returnJson(200, "", "update success");
 		}
 		
 		function getMenu() {
@@ -139,6 +143,7 @@
 				$sale->addLineItem($sd->id, $sd->quant);
 			}
 			$sale->endSale();
+			returnJson(200, "", "Order success. Your orderId is '".$sale->getOrderId()."'");
 		}
 		
 	}

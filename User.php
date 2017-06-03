@@ -14,14 +14,14 @@
 			
 			$user = $this->dbhandler->where(array("userId" => $this->userId))->get("User");
 			
-			if($user) {
-				$this->phoneNumber = $user[0]->phoneNumber;
-				$this->fcmToken = $user[0]->fcmToken;
+			if($this->dbhandler->num_rows() != 0) {
+				$this->phoneNumber = $user[0]['phoneNumber'];
+				$this->fcmToken = $user[0]['fcmToken'];
 				
-				$isRegister = true;
+				$this->isRegister = true;
 			}
 			else {
-				$isRegister = false;
+				$this->isRegister = false;
 			}
 		}
 		
@@ -36,8 +36,8 @@
 		}
 		
 		function updateUser($uid, $unum, $token) {
-			if(!$this->isRegister) {
-				createUser($uid, $unum, $token);
+			if($this->isRegister === false) {
+				$this->createUser($uid, $unum, $token);
 			}
 			else {
 				try {
