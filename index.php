@@ -157,7 +157,7 @@
 			$user = new User($this->userId);
 			$order = new Order($user->getUserId());
 			
-			print_r($order->getOrderInfo());
+			returnJson(200, $order->getOrderInfo(), "Get List");
 		}
 		
 	}
