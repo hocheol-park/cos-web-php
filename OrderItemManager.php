@@ -15,7 +15,7 @@
 		
 		function changeStatus($orderid, $itemid) {
 			
-			$this->dbhandler->where(array('orderId'=>$orderid, 'itemId'=>$itemid)->update('OrderItem', array('status' => 'done'));
+			$this->dbhandler->where(array('orderId'=>$orderid, 'itemId'=>$itemid))->update('OrderItem', array('status' => 'done'));
 		}
 		
 	}	
