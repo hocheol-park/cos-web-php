@@ -31,10 +31,11 @@
 				
 				$orderinfo = $this->dbhandler->where(array('orderId'=>$orderid))->get('OrderInfo');
 				$userid = $orderinfo[0]['userId'];
+				$orderDesc = $orderinfo[0]['description'];
 				$user = $this->dbhandler->where(array('userId'=>$userid))->get('User');
 				
 				// SEND PUSH
-				$FCM = new GoogleFcm($user[0]['fcmToken'], "Your order is Ready. Please pick up your drinks");
+				$FCM = new GoogleFcm($user[0]['fcmToken'], array("title"=>"Order Complete", "message"=>"Your order [".$orderDesc." is completed. Please pick up your drinks."));
 				$FCM->send();
 			}
 		}
