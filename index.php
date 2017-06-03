@@ -218,7 +218,8 @@
 			$msg = isset($_GET['msg']) ? $_GET['msg'] : "";
 			
 			$FCM = new GoogleFcm($token, $msg);
-			$FCM->send();
+			$res = $FCM->send();
+			print_r($res);
 		}
 		
 	}
