@@ -46,6 +46,9 @@
 			else if($mode == "makesale") {
 				$this->makeNewSale();
 			}
+			else if($mode == "myorder") {
+				$this->myOrder();
+			}
 		}
 		
 		function setInitData() {
@@ -138,14 +141,21 @@
 			$user = new User($this->userId);
 			$sale = new Sale($user->getUserId());
 			
-			$mode = isset($_GET['data']) ? $_GET['data'] : (isset($_POST['data']) ? $_POST['data'] : "");
+			$data = isset($_GET['data']) ? $_GET['data'] : (isset($_POST['data']) ? $_POST['data'] : "");
 			
-			$saledata = json_decode($_GET['data']);
+			$saledata = json_decode($data);
 			foreach($saledata as $sd) {
 				$sale->addLineItem($sd->id, $sd->quant);
 			}
 			$sale->endSale();
 			returnJson(200, "", "Order success. Your orderId is '".$sale->getOrderId()."'");
+		}
+		
+		function myOrder() {
+			$user = new User($this->userId);
+			$order = new Order($user->getUserId());
+			
+			print_r($order->getOrderInfo());
 		}
 		
 	}
