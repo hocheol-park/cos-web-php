@@ -138,6 +138,8 @@
 			$user = new User($this->userId);
 			$sale = new Sale($user->getUserId());
 			
+			$mode = isset($_GET['data']) ? $_GET['data'] : (isset($_POST['data']) ? $_POST['data'] : "");
+			
 			$saledata = json_decode($_GET['data']);
 			foreach($saledata as $sd) {
 				$sale->addLineItem($sd->id, $sd->quant);
@@ -154,8 +156,8 @@
 	// Param2 uid : device id from Android
 	// Param3 unum : phone number from Android
 	
-	$mode = isset($_GET['mode']) ? $_GET['mode'] : "";
-	$uid = isset($_GET['uid']) ? $_GET['uid'] : "";
+	$mode = isset($_GET['mode']) ? $_GET['mode'] : (isset($_POST['mode']) ? $_POST['mode'] : "");
+	$uid = isset($_GET['uid']) ? $_GET['uid'] : (isset($_POST['uid']) ? $_POST['uid'] : "");
 	
 	$mainController = new MainController($mode, $uid);
 	
