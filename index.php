@@ -138,6 +138,14 @@
 				
 				$this->dbhandler->query($createOrderItem);
 				
+				// FOREIGN KEY SET
+				// If you want to TRUNCATE OrderItem, using 'SET FOREIGN_KEY_CHECK = 0' AND TRUNCATE AND set 1
+				$alterOrderItem  = "ALTER TABLE `OrderItem` ";
+				$alterOrderItem .= "ADD FOREIGN KEY (`itemId`) REFERENCES `cos`.`Item` (`id`) ";
+				$alterOrderItem .= "ON DELETE CASCADE ON UPDATE CASCADE";
+				
+				$this->dbhandler->query($alterOrderItem);
+				
 			} catch(Exception $e){
 				echo 'Caught exception: ', $e->getMessage();
 			}
