@@ -9,7 +9,7 @@
 		}
 		
 		function getOrderItemList() {
-			$orderItemList = $this->dbhandler->query("SELECT * FROM OrderItem WHERE status = 'waiting' ORDER BY itemId ASC, orderId ASC", true);
+			$orderItemList = $this->dbhandler->query("SELECT oi.*, i.name as itemName FROM OrderItem oi JOIN Item i ON i.id = oi.itemId WHERE oi.status = 'waiting' ORDER BY oi.itemId ASC, oi.orderId ASC", true);
 			return $orderItemList;
 		}
 		
