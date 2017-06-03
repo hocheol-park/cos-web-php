@@ -14,7 +14,7 @@
 			$url = GOOGLE_FCM_ENDPOINT;
 			$fields = array(
 				 'registration_ids' => array($this->token),
-				 'data' => $this->message
+				 'data' => array("message" => $this->message)
 				);
 	
 			$headers = array(
