@@ -189,7 +189,7 @@
 			$itemid = isset($_GET['itemid']) ? $_GET['itemid'] : "";
 			
 			$itemManager = new ItemManager();
-			$itemManager->deteteItem($itemid);
+			$itemManager->deleteItem($itemid);
 			returnJson(200, "", "Detele item. Id : ".$itemid);
 		}
 		
