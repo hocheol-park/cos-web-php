@@ -25,22 +25,19 @@
 		public $userId;
 		public $userNum;
 		
-		function __construct($mode, $uid, $unum) {
+		function __construct($mode, $uid) {
 			$this->dbhandler = new DBHandler();
-			$this->setUser($uid, $unum);
-			$this->doFunction($mode);
-		}
-		
-		function setUser($uid, $unum) {
-			//$this->user = new User($uid, $unum);
 			$this->userId = $uid;
-			$this->userNum = $unum;
+			$this->doFunction($mode);
 		}
 		
 		function doFunction($mode) {
 			
 			if($mode == "initset") {
 				$this->setInitData();
+			}
+			else if($mode == "updateuser") {
+				$this->updateUser();
 			}
 			else if($mode == "getmenu") {
 				$this->getMenu();
@@ -119,13 +116,22 @@
 			}
 		}
 		
+		function updateUser() {
+			$user = new User($this->userId);
+			
+			$unum = isset($_GET['unum']) ? $_GET['unum'] : "";
+			$token = isset($_GET['token']) ? $_GET['token'] : "";
+			
+			$user->updateUser($this->userId, $unum, $token);
+		}
+		
 		function getMenu() {
 			$itemList = new itemList($this->dbhandler);
 			returnJson(200, array("list"=>$itemList->getItemList()), "");
 		}
 		
 		function makeNewSale() {
-			$user = new User($this->userId, $this->userNum);
+			$user = new User($this->userId);
 			$sale = new Sale($user->getUserId());
 			
 			$saledata = json_decode($_GET['data']);
@@ -145,8 +151,7 @@
 	
 	$mode = isset($_GET['mode']) ? $_GET['mode'] : "";
 	$uid = isset($_GET['uid']) ? $_GET['uid'] : "";
-	$unum = isset($_GET['unum']) ? $_GET['unum'] : "";
 	
-	$mainController = new MainController($mode, $uid, $unum);
+	$mainController = new MainController($mode, $uid);
 	
 ?>

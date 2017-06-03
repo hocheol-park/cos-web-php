@@ -4,24 +4,49 @@
 		
 		public $userId;
 		public $phoneNumber;
+		public $fcmToken;
 		public $dbhandler;
+		public $isRegister;
 		
-		function __construct($uid, $unum) {
+		function __construct($uid) {
 			$this->dbhandler = new DBHandler();
 			$this->userId = $uid;
-			$this->phoneNumber = $unum;
+			
 			$user = $this->dbhandler->where(array("userId" => $this->userId))->get("User");
 			
-			if(!$user) {
-				$this->createUser();
+			if($user) {
+				$this->phoneNumber = $user[0]->phoneNumber;
+				$this->fcmToken = $user[0]->fcmToken;
+				
+				$isRegister = true;
+			}
+			else {
+				$isRegister = false;
 			}
 		}
 		
-		function createUser() {
+		function createUser($uid, $unum, $token) {
 			try {
-				$this->dbhandler->insert('User', array('userId' => $this->userId, 'phoneNumber' => $this->phoneNumber));
+				$this->dbhandler->insert('User', array('userId' => $uid, 'phoneNumber' => $unum, 'fcmToken' => $token));
+				$this->phoneNumber = $unum;
+				$this->fcmToken = $token;
 			} catch(Exception $e) {
 				returnJson(400, '', 'Caught exception: ', $e->getMessage());
+			}
+		}
+		
+		function updateUser($uid, $unum, $token) {
+			if(!$this->isRegister) {
+				createUser($uid, $unum, $token);
+			}
+			else {
+				try {
+					$this->dbhandler->where('userId', $uid)->update('User', array('phoneNumber' => $unum, 'fcmToken' => $token));
+					$this->phoneNumber = $unum;
+					$this->fcmToken = $token;
+				} catch(Exception $e) {
+					returnJson(400, '', 'Caught exception: ', $e->getMessage());
+				}
 			}
 		}
 		
@@ -31,6 +56,10 @@
 		
 		function getUserPhone() {
 			return $this->phoneNumber;
+		}
+		
+		function getFCMToken() {
+			return $this->fcmToken;
 		}
 	}
 	
