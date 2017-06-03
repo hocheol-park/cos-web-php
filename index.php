@@ -18,6 +18,7 @@
 	include_once('Sale.php');
 	include_once('SalesLineItem.php');
 	include_once('Item.php');
+	include_once('ItemManager.php');
 	include_once('Order.php');
 	include_once('OrderItem.php');
 	include_once('OrderItemManager.php');
@@ -53,6 +54,9 @@
 			}
 			else if($mode == "orderlist") {
 				$this->orderList();
+			}
+			else if($mode == "additem") {
+				$this->makeNewItem();
 			}
 		}
 		
@@ -166,6 +170,16 @@
 		function orderList() {
 			$oim = new OrderItemManager();
 			returnJson(200, $oim->getOrderItemList(), "Get Order List");
+		}
+		
+		function makeNewItem() {
+			$name = isset($_GET['name']) ? $_GET['name'] : "";
+			$price = isset($_GET['price']) ? $_GET['price'] : "";
+			$desc = isset($_GET['desc']) ? $_GET['desc'] : "";
+			
+			$itemManager = new ItemManager();
+			$newItemId = $itemManager->addItem($name, $price, $desc);
+			returnJson(200, "", "Add new item. Id : ".$newItemId);
 		}
 		
 	}
