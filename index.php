@@ -55,6 +55,9 @@
 			else if($mode == "orderlist") {
 				$this->orderList();
 			}
+			else if($mode == "changestatus") {
+				$this->changeOrderStatus();
+			}
 			else if($mode == "additem") {
 				$this->makeNewItem();
 			}
@@ -173,6 +176,15 @@
 		function orderList() {
 			$oim = new OrderItemManager();
 			returnJson(200, $oim->getOrderItemList(), "Get Order List");
+		}
+		
+		function changeOrderStatus() {
+			$itemid = isset($_GET['itemid']) ? $_GET['itemid'] : "";
+			$orderid = isset($_GET['orderid']) ? $_GET['orderid'] : "";
+			
+			$itemManager = new OrderItemManager();
+			$itemManager->changeStatus($orderid, $itemid);
+			returnJson(200, "", "Change status to DONE");
 		}
 		
 		function makeNewItem() {
