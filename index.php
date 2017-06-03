@@ -58,6 +58,9 @@
 			else if($mode == "additem") {
 				$this->makeNewItem();
 			}
+			else if($mode == "deleteitem") {
+				$this->deleteItem();
+			}
 		}
 		
 		function setInitData() {
@@ -180,6 +183,14 @@
 			$itemManager = new ItemManager();
 			$newItemId = $itemManager->addItem($name, $price, $desc);
 			returnJson(200, "", "Add new item. Id : ".$newItemId);
+		}
+		
+		function deleteItem() {
+			$itemid = isset($_GET['itemid']) ? $_GET['itemid'] : "";
+			
+			$itemManager = new ItemManager();
+			$itemManager->deteteItem($itemid);
+			returnJson(200, "", "Detele item. Id : ".$itemid);
 		}
 		
 	}

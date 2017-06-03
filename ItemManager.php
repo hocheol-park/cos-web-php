@@ -20,5 +20,10 @@
 			return $this->dbhandler->insert_id();
 		}
 		
+		function deleteItem($id) {
+			
+			$this->dbhandler->where('id', $id)->delete('Item');
+		}
+		
 	}	
 ?>
