@@ -20,13 +20,13 @@
 	include_once('Item.php');
 	include_once('Order.php');
 	include_once('OrderItem.php');
+	include_once('OrderItemManager.php');
 	
 	// MAIN CONTROLLER
 	class MainController {
 		
 		public $dbhandler;
 		public $userId;
-		public $userNum;
 		
 		function __construct($mode, $uid) {
 			$this->dbhandler = new DBHandler();
@@ -50,6 +50,9 @@
 			}
 			else if($mode == "myorder") {
 				$this->myOrder();
+			}
+			else if($mode == "orderlist") {
+				$this->orderList();
 			}
 		}
 		
@@ -158,6 +161,11 @@
 			$order = new Order($user->getUserId());
 			
 			returnJson(200, $order->getOrderInfo(), "Get List");
+		}
+		
+		function orderList() {
+			$oim = new OrderItemManager();
+			returnJson(200, $oim->getOrderItemList(), "Get Order List");
 		}
 		
 	}
