@@ -1,7 +1,6 @@
 <?php
 	// COMMON VARIABLE
-	define("GOOGLE_API_KEY", "AAAAuIB50Ww:APA91bEMOi-f6ynJ3JzUQdZqegPNqSScwLCXnWIEuKIS_7T0BQlx_aa-uQjNrCWmilNaQ7QX1ynuAsgExOKWw3iK0lnJLOKT1wq4VvyY3Cpw-OToIbiEtKe0ZQnbstY5bz0yuvqeX3mx");
-	define("GOOGLE_FCM_ENDPOINT", "https://fcm.googleapis.com/fcm/send");
+	include_once('config.php');
 	
 	// COMMON FUNCTIONS
 	function returnJson($code, $data, $msg) {
