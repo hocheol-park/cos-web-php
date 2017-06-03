@@ -22,7 +22,8 @@
 	class MainController {
 		
 		public $dbhandler;
-		public $user;
+		public $userId;
+		public $userNum;
 		
 		function __construct($mode, $uid, $unum) {
 			$this->dbhandler = new DBHandler();
@@ -31,7 +32,9 @@
 		}
 		
 		function setUser($uid, $unum) {
-			$this->user = new User($uid, $unum);
+			//$this->user = new User($uid, $unum);
+			$this->userId = $uid;
+			$this->userNum = $unum;
 		}
 		
 		function doFunction($mode) {
@@ -122,7 +125,8 @@
 		}
 		
 		function makeNewSale() {
-			$sale = new Sale($this->user->getUserId());
+			$user = new User($this->userId, $this->userNum);
+			$sale = new Sale($user->getUserId());
 			
 			$saledata = json_decode($_GET['data']);
 			foreach($saledata as $sd) {
@@ -139,6 +143,10 @@
 	// Param2 uid : device id from Android
 	// Param3 unum : phone number from Android
 	
-	$mainController = new MainController($_GET['mode'], $_GET['uid'], $_GET['unum']);
+	$mode = isset($_GET['mode']) ? $_GET['mode'] : "";
+	$uid = isset($_GET['uid']) ? $_GET['uid'] : "";
+	$unum = isset($_GET['unum']) ? $_GET['unum'] : "";
+	
+	$mainController = new MainController($mode, $uid, $unum);
 	
 ?>
