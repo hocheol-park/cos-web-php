@@ -15,7 +15,20 @@
 		
 		function changeStatus($orderid, $itemid) {
 			
+			// OrderItem status changed
 			$this->dbhandler->where(array('orderId'=>$orderid, 'itemId'=>$itemid))->update('OrderItem', array('status' => 'done'));
+			
+			// Check whether it still has 'waiting' status
+			$orderItems = $this->dbhandler->where(array('orderId'=>$orderid, 'status'=>'waiting'))->get('OrderItem');
+			
+			// If it still has waiting then change to progressing
+			if( $this->dbhandler->num_rows() > 0 ) {
+				$this->dbhandler->where(array('orderId'=>$orderid))->update('OrderInfo', array('status' => 'progressing'));
+			}
+			// If it is the last order item
+			else {
+				$this->dbhandler->where(array('orderId'=>$orderid))->update('OrderInfo', array('status' => 'done'));
+			}
 		}
 		
 	}	
