@@ -18,6 +18,8 @@
 	include_once('Sale.php');
 	include_once('SalesLineItem.php');
 	include_once('Item.php');
+	include_once('Order.php');
+	include_once('OrderItem.php');
 	
 	// MAIN CONTROLLER
 	class MainController {

@@ -3,10 +3,7 @@
 	class OrderItem {
 		
 		public $orderId;
-		public $itemId;
-		public $itemName;
-		public $amount;
-		public $status;
+		public $orderItems;
 		
 		function __construct($oid) {
 			$this->orderId = $oid;
@@ -15,23 +12,23 @@
 		
 		function setOrderItem() {
 			$dbhandler = new DBHandler();
-			$orderitem = $dbhandler->query("SELECT o.itemId, o.amount, o.status, i.name FROM OrderItem o JOIN Item i ON i.id = o.itemId WHERE o.orderId = ".$this->orderId);
+			$orderitem = $dbhandler->query("SELECT o.itemId, o.amount, o.status, i.name FROM OrderItem o JOIN Item i ON i.id = o.itemId WHERE o.orderId = ".$this->orderId, true);
 			
+			$this->orderItems = array();
 			if($dbhandler->num_rows() > 0) {
-				$this->itemId = $orderitem[0]['itemId'];
-				$this->itemName = $orderitem[0]['name'];
-				$this->amount = $orderitem[0]['amount'];
-				$this->status = $orderitem[0]['status'];
+				foreach($orderitem as $oi) {
+					$this->orderItems[] = array(
+							"itemId" => $oi['itemId'],
+							"itemName" => $oi['name'],
+							"amount" => $oi['amount'],
+							"status" => $oi['status']
+					);	
+				}
 			}
 		}
 		
 		function getOrderItem() {
-			return array(
-				"itemId" => $this->itemId, 
-				"itemName"=> $this->itemName, 
-				"amount" => $this->amount, 
-				"status" => $this->status
-			);
+			return $this->orderItems;
 		}
 	}
 	

@@ -25,7 +25,7 @@
 		}
 		
 		function getOrderInfo() {
-			return $this->order();
+			return $this->order;
 		}
 	}
 	
